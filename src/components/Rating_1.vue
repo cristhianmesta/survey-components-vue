@@ -5,6 +5,7 @@
 
   interface Ranking {
     question      : string,
+    instruction   : string,
     totalAnswers  : number, 
     options       : Option[]
   }
@@ -25,6 +26,7 @@
   })
 
   const question = ref(props.ranking.question)
+  const instruction = ref(props.ranking.instruction)
   const numberOfAnswers = ref(props.ranking.totalAnswers)
   const options : any[] = reactive(props.ranking.options.map( x => ({...x, selected: false })))
   const answers = reactive([...Array(numberOfAnswers.value)].map(
@@ -62,13 +64,18 @@
 </script>
 
 <template>
-  <section class="answer">
-    <p>{{ question }}</p>
-    <div class="options">
-      <button v-for="option in options" :key="option.value"
+  <section class="ranking">
+    <div class="ranking-text">
+        {{ question }}
+    </div>
+    <div class="ranking-instructions" 
+         v-if="instruction!==null">
+        {{ instruction }}
+    </div>
+    <div class="ranking-options">
+      <button v-for="option in options" 
+           :key="option.value"
            @click="selectAnswer(option)"
-           class="options-item"
-           :class="{ blocked: option.selected }"
            :disabled="option.selected"> 
         {{ option.text }}
       </button>
@@ -76,61 +83,71 @@
   </section>
 
   <section class="result">
-    Ranking:
+    Top {{ numberOfAnswers }}:
     <div v-for="(answer, index) in answers" :key="index"
          class="result-item"
-         :class="{ selected: answer.text }"> 
-      <div>{{ index + 1 }}</div>
-      <div>{{  answer.text ||  'SIN OPCIÓN' }} </div>
-      <div >
+         :class="{ 'result-item-selected': answer.text }"> 
+      <span>{{ index + 1 }}</span>
+      <span>{{ answer.text ||  'NO CHOICE' }} </span>
+      <span>
         <button v-if="answer.text" 
-                @click="clearAnswer(answer)">
-                X
-              </button>
-      </div>
+              @click="clearAnswer(answer)">
+              X
+        </button>
+      </span>
     </div>
   </section>
 
-  <section class="result-code">
+  <section class="code">
     <pre>{{  answers  }}</pre>
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
-*{
-  box-sizing: border-box;
-}
-
-.answer{
+.ranking{
   font-weight: bold;
   padding-bottom: 1rem;
-}
 
-.options{
-  display: flex;
-  flex-flow: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
+  .ranking-text{
+    font-weight: 500;
+  }
 
-.options-item{
-  border: 2px solid rgb(179, 179, 179);
-  padding: .5rem;
-  text-align: left;
-}
+  .ranking-instructions{
+    font-weight: 500;
+    color: rgb(173, 173, 173);
+  }
 
-.options-item:hover:enabled{
-  cursor: pointer;
-  background: rgb(230, 230, 230);
-  border: 2px solid rgb(181, 54, 255);
-  color: rgb(181, 54, 255);
-}
+  .ranking-options{
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    margin: 1rem 0;
+    
+    button{
+      border: 3px solid #b3b3b3;
+      border-radius: .75rem;
+      padding:.5rem .75rem ;
+      text-align: left;
+      font-weight: 500;
 
-.blocked{
-  padding: .5rem;
-  background: rgb(230, 230, 230);
-  color: rgb(179, 179, 179);
+      &:enabled{
+        color: #747474;
+
+        &:hover{
+          cursor: pointer;
+          background: #eed1ff;
+          border-color: #b536ff;
+          color: #b536ff;
+        }
+      }
+
+      &:disabled{
+        background: #a1a1a1;
+        color: #797979;
+      }
+    }
+  }
 }
 
 .result{
@@ -138,31 +155,37 @@
   flex-flow: column;
   gap: 1rem;
   padding-bottom: 1rem;
-}
+  font-weight: 500;
 
-.result-item{
-  border: 2px dashed rgb(172, 172, 172);
-  padding: .5rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-}
+  .result-item{
+    border: 3px dashed #acacac;
+    color: #acacac;
+    border-radius: .75rem;
+    padding:.5rem .75rem ;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    font-weight: bold;
+  }
 
-.selected{
-  padding: .5rem;
-  background:rgb(238, 209, 255);
-  color: rgb(181, 54, 255);
-}
+  .result-item-selected{
+    background:#eed1ff;
+    color: #b536ff;
+    border: 2px solid #b536ff;
 
-.selected>div{
-  font-weight: bold;
-}
+    button{
+      background: rgb(181, 54, 255);
+      border-radius: .75rem;
+      color: #eed1ff;;
+      border-width: 0;
+      padding: .1rem .4rem;
 
-.result-code{
-  color: white;
-  background: rgb(50, 46, 58);
-  padding: 1rem;
-  font-size: .8rem;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+
 }
 
 </style>

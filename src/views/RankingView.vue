@@ -3,7 +3,8 @@
 import Rating_1 from '@/components/Rating_1.vue';
 
 let ranking_1 = {
-  question    : 'Rankiar las opciones según su preferencia:',
+  question    : 'R1. Rankiar las opciones según su preferencia:',
+  instruction: 'Aqui debería in alguna instrucción.',
   totalAnswers: 3,
   options : [
     { text: "Opción A", value: 1 },
@@ -14,7 +15,7 @@ let ranking_1 = {
   ]
 }
 
-</script>
+</script>W
 
 <template>
   <main>
