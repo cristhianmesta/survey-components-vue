@@ -1,11 +1,10 @@
 <script setup lang="ts">
 
-import Rating_1 from '@/components/Rating_1.vue';
+import Rating_2 from '@/components/Rating_2.vue';
 
-let ranking_1 = {
-  question    : 'R1. Rankiar las opciones según su preferencia:',
-  instruction: 'Aqui debería in alguna instrucción.',
-  totalAnswers: 3,
+let ranking_2 = {
+  question    : 'R2. Rankiar las opciones según su preferencia:',
+  instruction: 'Aqui debería ordenar las opciones.',
   options : [
     { text: "Opción A", value: 1 },
     { text: "Opción B", value: 2 },
@@ -15,10 +14,10 @@ let ranking_1 = {
   ]
 }
 
-</script>W
+</script>
 
 <template>
   <main>
-    <Rating_1 :ranking="ranking_1" />
+    <Rating_2 :ranking="ranking_2" />
   </main>
 </template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
   import { reactive, ref, type PropType } from 'vue'
-  import {  } from 'vue'
 
   interface Ranking {
     question      : string,
@@ -14,6 +13,7 @@
     text: string
     value: number
   }
+
 
   const props = defineProps({
     ranking: {
@@ -72,6 +72,22 @@
          v-if="instruction!==null">
         {{ instruction }}
     </div>
+    <div class="ranking-result">
+      Top {{ numberOfAnswers }}:
+      <div v-for="(answer, index) in answers" :key="index"
+          class="ranking-result-item"
+          :class="{ 'ranking-result-item-selected': answer.text }"> 
+        <span>{{ index + 1 }}</span>
+        <span>{{ answer.text ||  'NO CHOICE' }} </span>
+        <span>
+          <button v-if="answer.text" 
+                @click="clearAnswer(answer)">
+                X
+          </button>
+        </span>
+      </div>
+    </div>
+
     <div class="ranking-options">
       <button v-for="option in options" 
            :key="option.value"
@@ -81,23 +97,6 @@
       </button>
     </div>
   </section>
-
-  <section class="result">
-    Top {{ numberOfAnswers }}:
-    <div v-for="(answer, index) in answers" :key="index"
-         class="result-item"
-         :class="{ 'result-item-selected': answer.text }"> 
-      <span>{{ index + 1 }}</span>
-      <span>{{ answer.text ||  'NO CHOICE' }} </span>
-      <span>
-        <button v-if="answer.text" 
-              @click="clearAnswer(answer)">
-              X
-        </button>
-      </span>
-    </div>
-  </section>
-
   <section class="code">
     <pre>{{  answers  }}</pre>
   </section>
@@ -148,44 +147,46 @@
       }
     }
   }
-}
 
-.result{
-  display: flex;
-  flex-flow: column;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  font-weight: 500;
-
-  .result-item{
-    border: 3px dashed #acacac;
-    color: #acacac;
-    border-radius: .75rem;
-    padding:.5rem .75rem ;
+  .ranking-result{
     display: flex;
+    flex-flow: column;
     gap: 1rem;
-    justify-content: space-between;
-    font-weight: bold;
-  }
+    padding-bottom: 1rem;
+    font-weight: 500;
 
-  .result-item-selected{
-    background:#eed1ff;
-    color: #b536ff;
-    border: 2px solid #b536ff;
-
-    button{
-      background: rgb(181, 54, 255);
+    .ranking-result-item{
+      border: 3px dashed #acacac;
+      color: #acacac;
       border-radius: .75rem;
-      color: #eed1ff;;
-      border-width: 0;
-      padding: .1rem .4rem;
+      padding:.5rem .75rem ;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      font-weight: bold;
+    }
 
-      &:hover{
-        cursor: pointer;
+    .ranking-result-item-selected{
+      background:#eed1ff;
+      color: #b536ff;
+      border: 2px solid #b536ff;
+
+      button{
+        background: transparent;
+        border-radius: .75rem;
+        color: #b536ff;
+        border-width: 0;
+        padding: .1rem .4rem;
+        font-weight: bold;
+
+        &:hover{
+          cursor: pointer;
+        }
       }
     }
   }
-
 }
+
+
 
 </style>
