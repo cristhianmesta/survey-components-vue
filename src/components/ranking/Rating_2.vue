@@ -2,6 +2,7 @@
 
   import { ref, type PropType } from 'vue'
   import draggable from 'vuedraggable';
+  import Question from '@/components/Question.vue'
 
   interface Ranking {
     question      : string,
@@ -36,29 +37,34 @@
 </script>
 
 <template>
-  <section class="ranking">
-    <div class="ranking-text">
-        {{ question }}
-    </div>
-    <div class="ranking-instructions" 
-         v-if="instruction!==null">
-        {{ instruction }}
+
+  <Question>
+
+    <template #text>
+      {{ question }}
+    </template>
+
+    <template #instruction v-if="instruction!==null">
+      {{ instruction }}
+    </template>
+    <div class="ranking">
+      <draggable v-model="options" 
+                    item-key="value" 
+                    :animation="300"
+                    class="list-group"
+                    @end="updateResults" >
+            <template #item="{element, index }">
+                <div class="list-group-item"> {{ index+1  }} :: {{element.text }} </div>
+            </template>
+      </draggable>
     </div>
 
-    <draggable v-model="options" 
-                item-key="value" 
-                :animation="300"
-                class="list-group"
-                @end="updateResults" >
-        <template #item="{element, index }">
-            <div class="list-group-item"> {{ index+1  }} :: {{element.text }} </div>
-        </template>
-    </draggable>
+    <template #code>
+      {{  results }}
+    </template>
 
-  </section>
-  <section class="code">
-    <pre>{{  results  }}</pre>
-  </section>
+  </Question>
+
 </template>
 
 <style lang="scss" scoped>
@@ -68,14 +74,6 @@
   font-weight: bold;
   padding-bottom: 1rem;
 
-  .ranking-text{
-    font-weight: 500;
-  }
-
-  .ranking-instructions{
-    font-weight: 500;
-    color: rgb(173, 173, 173);
-  }
 
   .list-group{
     display: flex;
@@ -84,7 +82,9 @@
     margin: 1rem 0;
     
     .list-group-item{
-      border: 3px solid #b3b3b3;
+      border: 3px solid #bed6fd;
+      background-color: #eef5ff;
+      color: #414141;
       border-radius: .75rem;
       padding:.5rem .75rem ;
       text-align: left;

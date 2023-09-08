@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
   import { reactive, ref, type PropType } from 'vue'
+  import Question from '@/components/Question.vue'
 
   interface Ranking {
     question      : string,
@@ -64,14 +65,18 @@
 </script>
 
 <template>
-  <section class="ranking">
-    <div class="ranking-text">
-        {{ question }}
-    </div>
-    <div class="ranking-instructions" 
-         v-if="instruction!==null">
-        {{ instruction }}
-    </div>
+
+<Question>
+
+  <template #text>
+    {{ question }}
+  </template>
+
+  <template #instruction v-if="instruction!==null">
+    {{ instruction }}
+  </template>
+
+  <div class="ranking">
     <div class="ranking-result">
       Top {{ numberOfAnswers }}:
       <div v-for="(answer, index) in answers" :key="index"
@@ -96,11 +101,15 @@
         {{ option.text }}
       </button>
     </div>
-  </section>
-  <section class="code">
-    <pre>{{  answers  }}</pre>
-  </section>
-</template>
+  </div>
+
+  <template #code>
+    {{  answers }}
+  </template>
+
+</Question>
+
+</template> 
 
 <style lang="scss" scoped>
 
@@ -108,14 +117,6 @@
   font-weight: bold;
   padding-bottom: 1rem;
 
-  .ranking-text{
-    font-weight: 500;
-  }
-
-  .ranking-instructions{
-    font-weight: 500;
-    color: rgb(173, 173, 173);
-  }
 
   .ranking-options{
     display: flex;
@@ -124,26 +125,27 @@
     margin: 1rem 0;
     
     button{
-      border: 3px solid #b3b3b3;
+      background-color: #eef5ff;
+      border: 3px solid #bed6fd;
+      color: #535353;
       border-radius: .75rem;
       padding:.5rem .75rem ;
       text-align: left;
       font-weight: 500;
 
       &:enabled{
-        color: #747474;
 
         &:hover{
           cursor: pointer;
-          background: #eed1ff;
-          border-color: #b536ff;
-          color: #b536ff;
+          background: #deecff;
+          border-color: #80aef8;
+          color: #414141;
         }
       }
 
       &:disabled{
-        background: #a1a1a1;
-        color: #797979;
+        background: #e9e9e9;
+        border-color: #d6d6d6;
       }
     }
   }
@@ -167,16 +169,15 @@
     }
 
     .ranking-result-item-selected{
-      background:#eed1ff;
-      color: #b536ff;
-      border: 2px solid #b536ff;
+      background:#deecff;
+      color: #80aef8;
+      border: 3px solid #80aef8;
 
       button{
         background: transparent;
         border-radius: .75rem;
-        color: #b536ff;
+        color: #80aef8;
         border-width: 0;
-        padding: .1rem .4rem;
         font-weight: bold;
 
         &:hover{

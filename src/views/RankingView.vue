@@ -7,27 +7,27 @@ import Rating_2 from '@/components/Ranking/Rating_2.vue';
 
 
 let ranking_1 = {
-  question    : 'R1. Rankiar las opciones según su preferencia:',
-  instruction: 'Seleccionar las 3 mejores opciones en orden de importancia',
+  question    : 'R1. Elegir los 3 mejores futbolista de la historia:',
+  instruction: 'Hacer clic sobre la opción más a menos importante',
   totalAnswers: 3,
   options : [
-    { text: "Opción A", value: 1 },
-    { text: "Opción B", value: 2 },
-    { text: "Opción C", value: 3 },
-    { text: "Opción D", value: 4 },
-    { text: "Opción E", value: 5 },
+    { text: 'Pelé', value: 1 },
+    { text: "Diego Armando Maradona", value: 2 },
+    { text: "Cristiano Ronaldo", value: 3 },
+    { text: "Lionel Messi", value: 4 },
+    { text: "Ronaldinho", value: 5 },
   ]
 }
 
 let ranking_2 = {
-  question    : 'R2. Rankiar las opciones según su preferencia:',
-  instruction: 'Aqui debería ordenar las opciones.',
+  question    : 'R2. Ordenar las peliculas según su preferencia.',
+  instruction: 'Arrastar la opción a la posición de su preferencia.',
   options : [
-    { text: "Opción A", value: 1 },
-    { text: "Opción B", value: 2 },
-    { text: "Opción C", value: 3 },
-    { text: "Opción D", value: 4 },
-    { text: "Opción E", value: 5 },
+    { text: "Volver al futuro", value: 1 },
+    { text: "El padrino", value: 2 },
+    { text: "Forrest Gump", value: 3 },
+    { text: "El silencio de los inocentes", value: 4 },
+    { text: "Vértigo", value: 5 },
   ]
 }
 
@@ -41,8 +41,8 @@ const setType = (value : number) => type.value = value
   <div class="view">
     <section class="view-menu">
       <nav>
-        <button @click="type=1">Ranking_1</button>
-        <button @click="type=2">Ranking_2</button>
+        <button @click="type=1" :class="{ 'view-menu-active': type===1}">Ranking 1 (Top)</button>
+        <button @click="type=2" :class="{ 'view-menu-active': type===2}">Ranking 2 (Sort)</button>
       </nav>
     </section>
     <section class="view-body">
@@ -69,8 +69,17 @@ const setType = (value : number) => type.value = value
     gap:1rem;
 
     button{
+      padding: .5rem ;
       border: none;
-      background: none;;
+      border-radius: .5rem;
+      color: #ffffff;
+      background-color: #9c9ea2;
+
+    }
+
+    .view-menu-active{
+      color: #ffffff;
+      background-color: #383838;
     }
   }
 }
