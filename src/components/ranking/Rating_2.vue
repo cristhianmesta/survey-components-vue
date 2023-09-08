@@ -14,7 +14,6 @@
     value: number
   }
 
-
   const props = defineProps({
     ranking: {
         type: Object as PropType<Ranking>,
@@ -22,12 +21,16 @@
     }
   })
 
-  const drag = ref(false)
-
-  
   const question = ref(props.ranking.question)
   const instruction = ref(props.ranking.instruction)
   const options  = ref(props.ranking.options) 
+
+  const results  = ref(props.ranking.options.map( (x, index)=> ({order: index +1, ...x}) )) 
+
+  const updateResults = () => {
+    results.value = [...options.value.map( (x, index)=> ({order: index +1, ...x}) )]
+  }
+
 
 
 </script>
@@ -46,16 +49,15 @@
                 item-key="value" 
                 :animation="300"
                 class="list-group"
-                @start="drag=true" 
-                @end="drag=false" >
-        <template #item="{element}">
-            <div class="list-group-item"> {{ element.order }}  {{element.text}} </div>
+                @end="updateResults" >
+        <template #item="{element, index }">
+            <div class="list-group-item"> {{ index+1  }} :: {{element.text }} </div>
         </template>
     </draggable>
 
   </section>
   <section class="code">
-    <pre>{{  options  }}</pre>
+    <pre>{{  results  }}</pre>
   </section>
 </template>
 

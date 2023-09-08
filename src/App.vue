@@ -5,38 +5,22 @@
 <template>
 
   <header>
-    <h1>
-      Survey Components
-    </h1>
-    <nav>
-      <ul>
-        <li>
-          <RouterLink to="/categorical">
-            Categorical
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/ranking">
-            Ranking
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/rating">
-            Rating
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="">
-            Open-ended
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/grid">
-            Grid
-          </RouterLink>
-        </li>
-      </ul>
-    </nav>
+    <section>
+      <h1>
+        Survey Components
+      </h1>
+    </section>
+    <section>
+      <nav>
+        <ul>
+          <li><RouterLink to="/categorical">Categorical</RouterLink></li>
+          <li><RouterLink to="/ranking">Ranking</RouterLink></li>
+          <li><RouterLink to="/rating">Rating</RouterLink></li>
+          <li><RouterLink to="/open-ended">Open-ended</RouterLink></li>
+          <li><RouterLink to="/grid"> Grid</RouterLink></li>
+        </ul>
+      </nav>
+    </section>
   </header>
 
   <main>
@@ -57,46 +41,56 @@
 
 
 #app{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows:repeat(3, auto);
-  width: 1024px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  gap: 2rem;
   
   header{
-    grid-column: 1 / 5;
-    grid-row: 1;
     padding-top: 1rem;
 
-    
     h1{
       font-size: 1.5rem;
+      width: 1024px;
+      margin: 0 auto;
       text-align: center;
+      padding: 1rem 0;
+
     }
 
     nav{
+      width: 1024px;
+      margin: 0 auto;
+      background-color: #ebebeb;
+      border-radius: 1rem;
+
+
       ul{
-        margin: 2rem 0;
-        padding: 0;
+        padding: 1rem 0;
         display: flex;
         justify-content: space-evenly;
 
         li{ 
+          background-color: rgb(216, 216, 216);
+          border-radius: .5rem;
+          padding:  .5rem 1rem;
           list-style: none;
+          color: black;
         }
       }
     }
   }
 
   main{
-    grid-column: 2 / 5;
-    grid-row: 2;
+    background-color: #ebebeb;
+     border-radius: 1rem;
+    width: 1024px;
+    margin: 1rem auto;
+    padding: 2rem 2rem;
+    flex-grow: 1;
   }
 
   footer{
-    grid-column: 1 / 5;
-    grid-row: 3;
     text-align: center;
     display: flex;
     flex-flow: column;
