@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { ref, type PropType } from 'vue'
+  import { ref, type PropType, computed } from 'vue'
   import draggable from 'vuedraggable';
   import Question from '@/components/Question.vue'
 
@@ -26,10 +26,12 @@
   const instruction = ref(props.ranking.instruction)
   const options  = ref(props.ranking.options) 
 
-  const results  = ref(props.ranking.options.map( (x, index)=> ({order: index +1, ...x}) )) 
+  const fullAnswers  = ref(props.ranking.options.map( (x, index)=> ({order: index +1, ...x}) )) 
+
+  const flatAnswers = computed( () => fullAnswers.value.map( x => x.value ) )
 
   const updateResults = () => {
-    results.value = [...options.value.map( (x, index)=> ({order: index +1, ...x}) )]
+    fullAnswers.value = [...options.value.map( (x, index)=> ({order: index +1, ...x}) )]
   }
 
 
@@ -60,7 +62,9 @@
     </div>
 
     <template #code>
-      {{  results }}
+      <div>FLAT OUTPUT:<br>{{ flatAnswers }}</div>
+      <br>
+      <div>FULL OUTPUT:<br>{{ fullAnswers }}</div>
     </template>
 
   </Question>

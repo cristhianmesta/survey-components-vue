@@ -11,12 +11,29 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/categorical',
+      name: 'Categorical',
+      component: () => import('../views/CategoricalView.vue')
+    },
+    {
       path: '/ranking',
       name: 'Ranking',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/RankingView.vue')
+    },
+    {
+      path: '/rating',
+      name: 'Rating',
+      component: () => import('../views/RatingView.vue')
+    },
+    {
+      path: '/open-ended',
+      name: 'OpenEnded',
+      component: () => import('../views/OpenEndedView.vue')
+    },
+    {
+      path: '/grid',
+      name: 'Grid',
+      component: () => import('../views/GridView.vue')
     }
   ]
 })

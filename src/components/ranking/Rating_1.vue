@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { reactive, ref, type PropType } from 'vue'
+  import { reactive, ref, type PropType, computed } from 'vue'
   import Question from '@/components/Question.vue'
 
   interface Ranking {
@@ -30,12 +30,14 @@
   const instruction = ref(props.ranking.instruction)
   const numberOfAnswers = ref(props.ranking.totalAnswers)
   const options : any[] = reactive(props.ranking.options.map( x => ({...x, selected: false })))
-  const answers = reactive([...Array(numberOfAnswers.value)].map(
+  const fullAnswers = reactive([...Array(numberOfAnswers.value)].map(
       (_, index) => ({ order:index + 1, text: null, value: null})
   ))
 
+  const flatAnswers = computed(() => fullAnswers.map( x => x.value ))
+
   const selectAnswer = (option : any) => {
-    const items = answers.filter(x => x.text == null);
+    const items = fullAnswers.filter(x => x.text == null);
     if(items.length===0) return
     items[0].text = option.text
     items[0].value = option.value
@@ -51,12 +53,12 @@
   }
 
   const reorderAnswers = () => {
-    for(var i=0; i<answers.length-1; i++){
-      if( answers[i].value === null){
-        answers[i].text = answers[i+1].text
-        answers[i].value = answers[i+1].value
-        answers[i+1].text= null
-        answers[i+1].value = null
+    for(var i=0; i<fullAnswers.length-1; i++){
+      if( fullAnswers[i].value === null){
+        fullAnswers[i].text = fullAnswers[i+1].text
+        fullAnswers[i].value = fullAnswers[i+1].value
+        fullAnswers[i+1].text= null
+        fullAnswers[i+1].value = null
       }
     }
   }
@@ -79,7 +81,7 @@
   <div class="ranking">
     <div class="ranking-result">
       Top {{ numberOfAnswers }}:
-      <div v-for="(answer, index) in answers" :key="index"
+      <div v-for="(answer, index) in fullAnswers" :key="index"
           class="ranking-result-item"
           :class="{ 'ranking-result-item-selected': answer.text }"> 
         <span>{{ index + 1 }}</span>
@@ -104,7 +106,9 @@
   </div>
 
   <template #code>
-    {{  answers }}
+    <div>FLAT OUTPUT:<br>{{ flatAnswers }}</div>
+    <br>
+    <div>FULL OUTPUT:<br>{{ fullAnswers }}</div>
   </template>
 
 </Question>
